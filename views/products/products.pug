@@ -1,0 +1,36 @@
+extends ../layout/layout.pug
+
+block content
+    h1 Order list
+    table.table
+        th User name
+        th ID
+        th Note
+        th Time order
+        th Status
+        th
+            tr 
+                td 
+                td
+                td
+                td
+                td
+                td
+                    a.btn.btn-light(href='/users/view/' + user.id) View
+                    a.btn.btn-light(href='/users/' + user.id) Confirm
+                    a.btn.btn-light(href='/users/' + user.id) In process
+                    a.btn.btn-light(href='/users/' + user.id) Completed
+                    a.btn.btn-light(href='/users/' + user.id) Cancel
+
+
+    //- nav(aria-label='Page navigation example')
+    //- ul.pagination
+    //-     li.page-item
+    //-     -var i = parseInt(perPage);
+    //-     a.page-link(href='/products/products?page=' + --i) Previous
+    //-     -var n = 0;
+        
+    //-     while n <= page
+    //-         li.page-item
+    //-         a.page-link(href='/products/products?page=' + ++n)= n
+    //-     a.page-link(href='/products/products?page=' + (i + 2)) Next

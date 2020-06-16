@@ -1,0 +1,14 @@
+
+extends ../layout/layout.pug
+
+block content
+    h1 Login
+    if error
+        each req in error
+            .alert.alert-danger= req 
+    form.form-group(action="/auth/login", method="post" )
+        label(for="name") User name
+        input.form-control#name(type="text", name="name",value=value?value.name:"")
+        label(for="pass") Password
+        input.form-control#pass(type="text", name="pass", value=value?value.pass:"")
+        button.btn.btn-primary.mt-2 Login

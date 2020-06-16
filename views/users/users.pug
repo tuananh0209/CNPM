@@ -1,0 +1,26 @@
+extends ../layout/layout.pug
+
+block content
+
+    
+       
+    .d-flex   
+        h1
+            span FOOD
+        a.btn.btn-primary.mr-auto.ml-2.mt-auto.mb-auto.p-auto(href="/users/creat") ADD
+        form.ml-auto(action="/users/search", method="get", class="form-group d-flex" )
+            input(type='text', name='q', class="form-control", value=inputs?inputs:"")
+            button(class="btn btn-primary ml-2") search
+    table.table
+        th Name
+        th ID   
+        th Vendor
+        th Status
+        th
+            tr
+                td
+                td
+                td
+                td
+                td
+                    a.btn.btn-light(href='/users/' + user.id) Edit
