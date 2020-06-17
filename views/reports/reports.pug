@@ -2,18 +2,25 @@ extends ../layout/layout.pug
 
 block content
     button.mb-2.pb-10.btn.btn-primary(type='button') Export
-
+    -var total = 0;
     table.table
         th Name
         th ID
         th Price
-        th amount
+        th Amount
         th Vendor
             tr
-        
-            tr 
-                td Total revenue
+            each data in reportData
+                tr 
+                    td= data.name
+                    td= data.id
+                    td= data.price
+                    td= data.amount
+                    td= data.vendor
+                -total += (parseInt(data.price) * parseInt(data.amount))   
+            tr
+                th Total revenue
                 td
                 td
-                td
-                td
+                td=total
+                td   

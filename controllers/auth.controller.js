@@ -15,3 +15,10 @@ module.exports.postLogin = function(req , res){
 
 }
 
+module.exports.signOut = function(req , res){
+    var user = db.get('users').find({
+        id: req.signedCookies.userId
+    }).value();
+    res.clearCookie('userId');
+    res.redirect('login');
+}

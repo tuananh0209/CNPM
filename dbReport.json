@@ -1,0 +1,17 @@
+{
+  "report": [
+    {
+      "name": "Cocacola",
+      "price": 10000,
+      "amount": 10,
+      "vendor": "A"
+    },
+    {
+      "name": "Snack",
+      "price": 20000,
+      "amount": 20,
+      "vendor": "AB"
+    }
+  ],
+  "users": []
+}

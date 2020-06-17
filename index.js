@@ -13,6 +13,8 @@ const reportRouter = require('./router/report.router')
 const sessionMiddleware = require('./middleware/session.middleware')
 const cartRouter = require('./router/cart.router')
 const db = require('./db')
+const dbReport = require('./dbReport')
+
 
 const app = express();
 const port = 3000;
