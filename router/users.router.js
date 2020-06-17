@@ -14,13 +14,11 @@ router.get('/',  controller.index)
 //     res.send();
 // })
 
-router.get('/search', controller.search)
+router.get('/search', controller.search);
 
-router.get('/creat', controller.creat)
+router.get('/creat', controller.creat);
 
 router.post('/creat', upload.single('avatar') ,validate.postCreat , controller.postCreat);
-
-router.get('/report', controller.report);
 
 router.get('/errors', controller.errors);
 

@@ -5,4 +5,4 @@ const router = express.Router()
 
 router.get('/products', controller.products);
 
-module.exports = router  
+module.exports = router

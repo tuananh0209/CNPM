@@ -54,10 +54,6 @@ module.exports.view = function (req, res) {
     });
 };
 
-module.exports.report = function (req, res) {
-    res.render('users/report');
-}
-
 module.exports.errors = function (req, res) {
     res.render('users/errors');
 }

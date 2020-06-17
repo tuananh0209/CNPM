@@ -9,6 +9,7 @@ const userRouter = require('./router/users.router')
 const loginRouter = require('./router/auth.router')
 const validateAuth = require('./validate/auth.validate')
 const productsRouter = require('./router/products.router')
+const reportRouter = require('./router/report.router')
 const sessionMiddleware = require('./middleware/session.middleware')
 const cartRouter = require('./router/cart.router')
 const db = require('./db')
@@ -35,6 +36,7 @@ app.use('/users',validateAuth.requestAuth, userRouter);
 app.use('/auth', loginRouter);
 app.use('/products', validateAuth.requestAuth, productsRouter);
 app.use('/cart', validateAuth.requestAuth, cartRouter);
+app.use('/reports',validateAuth.requestAuth, reportRouter);
 
 app.listen(port , function(){
     console.log("port: " + port);

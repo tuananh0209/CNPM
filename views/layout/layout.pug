@@ -10,7 +10,7 @@ html
                 ul.navbar-nav.mr-auto
                     
                     li.nav-item.active
-                        a.nav-link(href='/users/report') Report
+                        a.nav-link(href='/reports/reports') Report
                             
                     li.nav-item.active
                         a.nav-link(href='/users') Food
@@ -26,6 +26,6 @@ html
             if user
                     .m-0
                         span= user.name
-                    a.text-body.nav-link(href='#') Sign out                  
+                    a.text-body.nav-link(href='#') Sign out               
         .container.pt-5
             block content
