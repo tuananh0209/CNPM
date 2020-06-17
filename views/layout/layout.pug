@@ -10,22 +10,22 @@ html
                 ul.navbar-nav.mr-auto
                     
                     li.nav-item.active
-                        a.nav-link(href='/reports/reports') Report
+                        a.nav-link(href='/reports/reports') REPORT
                             
                     li.nav-item.active
-                        a.nav-link(href='/users') Food
+                        a.nav-link(href='/users') FOOD
 
                     li.nav-item.active
-                        a.nav-link(href='/products/products') Order                    
+                        a.nav-link(href='/products/products') ORDER                    
                     li.nav-item.active
-                        a.nav-link(href='/users/errors') Error                   
+                        a.nav-link(href='/users/errors') ERROR                   
                     
                     li.nav-item.active
-                        a.nav-link(href='/auth/login') Login
+                        a.nav-link(href='/auth/login') LOGIN
             
             if user
                     .m-0
                         span= user.name
-                    a.text-body.nav-link(href='/auth/signOut') Sign out               
+                    a.text-body.nav-link(href='/auth/signOut') SIGN OUT               
         .container.pt-5
             block content
