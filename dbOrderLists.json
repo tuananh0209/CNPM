@@ -1,0 +1,27 @@
+{
+  "OrderLists": [
+    {
+      "userName" :"độ",
+      "id":"",
+      "ordered":[
+        {
+          "name": "mì xào trứng ",
+          "amount": 5,
+          "note" : "không bỏ hành"
+        },
+        {
+          "name": "cơm chiên trứng",
+          "amount": 2,
+          "note":"bỏ nhiều hành"
+        },
+        {
+          "name": "hamberger",
+          "amount": 5,
+          "note": ""
+        }
+      ]
+    }
+    
+  ],
+  "users": []
+}

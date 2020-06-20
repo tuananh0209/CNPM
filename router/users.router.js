@@ -24,7 +24,6 @@ router.get('/errors', controller.errors);
 
 router.get('/:id', controller.view);
 
-router.get('/view/:id', controller.viewOrders);
 
 
 module.exports = router
