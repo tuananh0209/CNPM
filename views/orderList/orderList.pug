@@ -1,0 +1,22 @@
+extends ../layout/layout.pug
+
+block content
+    h1 Order list
+    table.table
+        th User name
+        th ID
+        th Note
+        th Time order
+        th Status
+        th
+            tr 
+                td 
+                td
+                td
+                td
+                td
+                td
+                    a.btn.btn-light(href='/orderList/view/' + user.id) View
+                    a.btn.btn-light(href='/users/' + user.id) Confirm
+                    a.btn.btn-light(href='/users/' + user.id) Completed
+                    a.btn.btn-light(href='/users/' + user.id) Cancel

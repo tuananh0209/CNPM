@@ -14,6 +14,7 @@ const sessionMiddleware = require('./middleware/session.middleware')
 const cartRouter = require('./router/cart.router')
 const db = require('./db')
 const dbReport = require('./dbReport')
+const orderListRouter = require('./router/orderList.router')
 
 
 const app = express();
@@ -39,6 +40,7 @@ app.use('/auth', loginRouter);
 app.use('/products', validateAuth.requestAuth, productsRouter);
 app.use('/cart', validateAuth.requestAuth, cartRouter);
 app.use('/reports',validateAuth.requestAuth, reportRouter);
+app.use('/orderList',validateAuth.requestAuth, orderListRouter);
 
 app.listen(port , function(){
     console.log("port: " + port);

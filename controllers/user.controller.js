@@ -57,7 +57,3 @@ module.exports.view = function (req, res) {
 module.exports.errors = function (req, res) {
     res.render('users/errors');
 }
-
-module.exports.viewOrders = function (req, res){
-    res.render('users/viewOrders');
-}

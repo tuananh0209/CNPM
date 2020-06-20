@@ -1,3 +1,3 @@
 {
-    "ignore" : ["db.json","dbReport.json"]
+    "ignore" : ["db.json","dbReport.json", "dbOrderLists.json"]
 }
