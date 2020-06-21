@@ -7,4 +7,4 @@ class userCreat {
     }
 };
 
-module.exports = userCreat
+module.exports = userCreat 

@@ -16,9 +16,7 @@ router.get('/',  controller.index)
 
 router.get('/search', controller.search);
 
-router.get('/creat', controller.creat);
 
-router.post('/creat', upload.single('avatar') ,validate.postCreat , controller.postCreat);
 
 router.get('/errors', controller.errors);
 

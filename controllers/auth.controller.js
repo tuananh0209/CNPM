@@ -1,4 +1,9 @@
 const db = require('../db')
+const shortid = require('shortid')
+const md5 = require('md5')
+const userCreat = require('../objects/userCreat.object');
+const { use } = require('../router/auth.router');
+
 
 module.exports.login = function(req , res){
     res.render('auth/login');
@@ -22,3 +27,22 @@ module.exports.signOut = function(req , res){
     res.clearCookie('userId');
     res.redirect('login');
 }
+
+module.exports.creat = function (req, res) {
+    console.log(req.cookies);
+    res.render('auth/creat');
+};
+
+module.exports.postCreat = function (req, res) {
+    req.body.id = shortid.generate();
+    var inData = new userCreat(
+        req.body.name,
+         req.body.id,
+        md5(req.body.pass),
+         req.body.phone,
+        req.file.path.slice(7)
+    )
+    db.get('users').push(inData)
+        .write();
+    res.redirect('login');
+};
