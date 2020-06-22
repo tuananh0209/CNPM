@@ -4,6 +4,7 @@ class userCreat {
         this.pass = pass;
         this.phone = phone;
         this.avatar = avatar;
+        this.id = id;
     }
 };
 

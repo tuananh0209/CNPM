@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const mongoose = require('mongoose')
 
 require('dotenv').config();
 console.log(process.env.SESSION_SECRET)
@@ -15,6 +16,8 @@ const cartRouter = require('./router/cart.router')
 const db = require('./db')
 const dbReport = require('./dbReport')
 const orderListRouter = require('./router/orderList.router')
+
+mongoose.connect(process.env.MONGO_URL);
 
 
 const app = express();
