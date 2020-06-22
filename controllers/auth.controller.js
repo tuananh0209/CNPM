@@ -1,5 +1,5 @@
-// const db = require('../db')
-const userCreat = require('../models/userCreat.model');
+const db = require('../db')
+// const userCreat = require('../models/userCreat.model');
 const shortid = require('shortid')
 const md5 = require('md5')
 const userCreat = require('../objects/userCreat.object');
@@ -35,11 +35,10 @@ module.exports.creat = function (req, res) {
 };
 
 module.exports.postCreat = function (req, res) {
-    
+    var id = md5(req.body.pass);
     var inData = new userCreat(
         req.body.name,
-         req.body.id,
-        md5(req.body.pass),
+        id,
          req.body.phone,
         req.file.path.slice(7)
     )

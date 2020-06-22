@@ -43,7 +43,7 @@ module.exports.creat = function (req, res) {
 
 module.exports.view = function (req, res) {
     var id = req.params.id;
-    var user = db.get('users').find({
+    var user = db.get('orderLists').find({
         id: id
     }).value();
     console.log(id);

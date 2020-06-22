@@ -1,26 +1,12 @@
 {
-  "OrderLists": [
+  "orderLists": [
     {
-      "userName": "độ",
-      "id": "",
-      "ordered": [
-        {
-          "name": "mì xào trứng ",
-          "amount": 5,
-          "note": "không bỏ hành"
-        },
-        {
-          "name": "cơm chiên trứng",
-          "amount": 2,
-          "note": "bỏ nhiều hành"
-        },
-        {
-          "name": "hamberger",
-          "amount": 5,
-          "note": ""
-        }
-      ]
+      "userId": "d5SxHOghd",
+      "cart": {
+        "025504f3-6e1a-4a68-9dd8-906b3e8262da": 2,
+        "98ab7841-bc53-4d06-8140-5ba9dded682e": 3
+      },
+      "note": "kho^ng cay"
     }
-  ],
-  "users": []
+  ]
 }
