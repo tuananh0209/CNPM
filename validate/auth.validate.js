@@ -12,7 +12,7 @@ module.exports.postLogin = async function(req , res , next){
     await userManage.find({
         name: req.body.name
     }, function(err, data) {
-        console.log(data[0]._id);
+        
         if (err) {
             if (err) return next(err);
         }
@@ -58,7 +58,7 @@ module.exports.requestAuth = async function(req , res , next){
     await userManage.find({
         _id: req.signedCookies.userId
     }, function (err, data) {
-        console.log(data[0].pass);
+
         if (err) {
             if (err) return next(err);
         }
