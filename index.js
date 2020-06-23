@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 require('dotenv').config();
 console.log(process.env.SESSION_SECRET)
 
-const userRouter = require('./router/users.router')
+const foodRouter = require('./router/food.router')
 const loginRouter = require('./router/auth.router')
 const validateAuth = require('./validate/auth.validate')
 const productsRouter = require('./router/products.router')
@@ -42,7 +42,7 @@ app.get('/',function(req , res){
     res.render('index');
 }); 
 
-app.use('/users',validateAuth.requestAuth, userRouter);
+app.use('/food',validateAuth.requestAuth, foodRouter);
 app.use('/auth', loginRouter);
 app.use('/products', validateAuth.requestAuth, productsRouter);
 app.use('/cart', validateAuth.requestAuth, cartRouter);

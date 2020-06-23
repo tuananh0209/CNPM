@@ -1,0 +1,29 @@
+extends ../layout/layout.pug
+
+block content
+
+    
+       
+    .d-flex   
+        h1
+            span FOOD
+       
+        form.ml-auto(action="/food/search", method="get", class="form-group d-flex" )
+            input(type='text', name='q', class="form-control", value=inputs?inputs:"")
+            button(class="btn btn-primary ml-2") search
+    table.table
+        th Image
+        th Name 
+        th Price
+        th
+            each data in foodData 
+                tr 
+                    td  
+                        -var srcIm = "http://" + src+ '/' + data.image
+                        img(src=srcIm, width="64")                
+                    td= data.name
+                    td= data.price
+                    td
+                        a.ml-auto.btn.btn-light(href='/food/' + data._id) Edit
+    
+    a.btn.btn-primary.mr-auto.ml-2.mt-auto.mb-auto.p-auto.mt-auto(href="/food/creat") Add new

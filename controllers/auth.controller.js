@@ -31,14 +31,12 @@ module.exports.postLogin = async function(req , res){
         res.cookie('userId', data[0]._id, {
              signed : true
         });
-        res.redirect('/users');
+        res.redirect('/');
     })
 }
 
 module.exports.signOut = function(req , res){
-    var user = db.get('users').find({
-        id: req.signedCookies.userId
-    }).value();
+ 
     res.clearCookie('userId');
     res.redirect('login');
 }
@@ -59,13 +57,13 @@ module.exports.postCreat =async function (req, res) {
     // db.get('users').push(inData)
     //     .write();
     // res.redirect('login');
-    var userInData = new userCreat({
+    var userInData = new userManage({
         name : req.body.name,
         pass: md5(req.body.pass),
         vendor:req.body.vendor
     });
 
-    await userInData.save(function(err){
+    await userInData.save(function (err) {
         if (err){
             console.log(err);
         }

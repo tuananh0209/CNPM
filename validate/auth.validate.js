@@ -16,35 +16,36 @@ module.exports.postLogin = async function(req , res , next){
         if (err) {
             if (err) return next(err);
         }
-
+        if (data)
         user = new userMatchObject(data[0].name , data[0]._id , data[0].pass , data[0].vendor);
        
+    }).then(function(){
+        var error = [];
+
+
+        if (!user) {
+            res.render('auth/login', {
+                error: [
+                    'Name does not exist!'
+                ],
+                value: req.body
+            });
+            return;
+        }
+
+        if (user.pass !== md5(pass)) {
+            res.render('auth/login', {
+                error: [
+                    'Wrong password!'
+                ],
+                value: req.body
+            });
+            return;
+        }
+        next();
     })
 
 
-    var error = [];
-   
-
-       if (!user) {
-           res.render('auth/login', {
-               error: [
-                   'Name does not exist!'
-               ],
-               value: req.body
-           });
-           return;
-       }
-
-       if (user.pass !== md5(pass)) {
-           res.render('auth/login', {
-               error: [
-                   'Wrong password!'
-               ],
-               value: req.body
-           });
-           return;
-       } 
-    next();
 }
 
 module.exports.requestAuth = async function(req , res , next){

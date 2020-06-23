@@ -1,5 +1,4 @@
 const express = require('express');
-const validate = require('../validate/user.validate')
 const validateAuth = require('../validate/auth.validate')
 const multer = require('multer')
 
