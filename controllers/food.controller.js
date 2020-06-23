@@ -6,9 +6,11 @@ const foodData = require('../objects/food.object');
 const userMatch = require('../objects/userManage.object');
 const userManage = require('../models/userCreat.model');
 
-var user;
-var getFoodData;
 
+var user;
+var getFoodDatas;
+var id;
+var getItem;
 
 module.exports.foodList = async function (req, res) {
     
@@ -22,69 +24,117 @@ module.exports.foodList = async function (req, res) {
         }
         if (data)
             user = new userMatch(data[0].name, data[0]._id, data[0]._pass, data[0].vendor);
-    })
-
-
-    await foodModel.find({
-        vendor : user.vendor
-    }, function(err , data){
-        if (err) return next(err);
-        console.log(req.headers.host);
-        if (data) 
-            getFoodData = new foodData.getFood(data);
-            console.log(data);
+            if (!user) {
+                wait(1000)
+                res.redirect('food');
+            }
+    }).then(function(){
+        foodModel.find({
+            vendor: user.vendor
+        }, function (err, data) {
+            if (err) return next(err);
+            // console.log(req.headers.host);
+            if (data)
+                getFoodDatas = new foodData.getFood(data);
+            // console.log(data);
             res.render('food/food', {
-            foodData : getFoodData.data,        
-            src : req.headers.host
-        })
-        
+                foodData: getFoodDatas.data,
+                src: req.headers.host
+            })
+
+        });
     })
+
+   
 };
 
 module.exports.search = function (req, res) {
     var name = req.query.q;
-    var userMatched = db.get('users').value().filter(function (value) {
-        return value.name.toLowerCase().indexOf(name.toLowerCase()) != -1;
+    var itemMatched =  getFoodDatas.data.filter(function(data){
+        return data.name.toLowerCase().indexOf(name.toLowerCase()) != -1;
     })
     res.render('food/food', {
-        users: userMatched,
-        inputs: name 
+        foodData: itemMatched,
+        inputs: name,
+        src: req.headers.host
     });
 
 };
 
 module.exports.creat = function (req, res) {
-    console.log(req.cookies);
+    console.log(req.cookies); 
     res.render('food/creat');
 };
 
 module.exports.postCreat = async function (req, res) {
 
-    var foodDatas = new foodModel({
+    var foodData = new foodModel({
         name : req.body.name,
         image : req.file.path.slice(7),
         price : req.body.price,
         vendor: req.body.vendor
     })
-    await foodDatas.save(function(err){
+    await foodData.save(function(err){
         console.log(err);
         res.redirect('/food/food');
     })
 };
 
-module.exports.view = function (req, res) { 
-    var id = req.params.id;
-    var user = db.get('orderLists').find({
-        id: id
-    }).value();
-    console.log(id);
-    console.log(user);
+module.exports.edit = async function (req, res) { 
+    
+    // await foodDatas.findByIdAndUpdate({
+    //     _id : req.params.id
+    // }, function(err , data){
+    //     if(err) console.log(err);
+    //     console.log(data);
+    // })
 
-    res.render('food/view', {
-        users: user
+    id = req.params.id;
+    getItem = getFoodDatas.data.filter(function(data){
+        return data._id == id;
+    })
+    // console.log(getItem);
+    res.render('food/edit', {
+        itemData : getItem[0]
     });
 };
 
+module.exports.update = async function(req , res){
+    
+    try {    
+        var foodUpdate = new foodData.food(
+            req.body.name,
+            req.file.path.slice(7),
+            req.body.price,
+            req.body.vendor
+        )
+    }
+    catch(err){
+        console.log(err);
+         var foodUpdate = new foodData.food(
+            req.body.name,
+            getItem[0].image, 
+            req.body.price,
+            req.body.vendor
+         )
+    }
+   
+  
+
+    await foodModel.findByIdAndUpdate({
+        _id : id
+    }, {
+        
+    $set : foodUpdate
+        
+    },
+    function (err, data) {
+        if(err) console.log(err);
+        console.log(data);
+    })
+
+    res.redirect('food');
+}
 module.exports.errors = function (req, res) {
     res.render('users/errors');
 }

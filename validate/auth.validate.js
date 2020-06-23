@@ -49,32 +49,39 @@ module.exports.postLogin = async function(req , res , next){
 }
 
 module.exports.requestAuth = async function(req , res , next){
-    if(!req.signedCookies.userId){
+   
+    var id = req.signedCookies.userId;
+    if(!id){
         res.redirect('/auth/login');
-        return;
+        return; 
     }
-
-    var user;
-
-    await userManage.find({
-        _id: req.signedCookies.userId
-    }, function (err, data) {
-
-        if (err) {
-            if (err) return next(err);
-        }
-        if (data)
-        user = new userMatchObject(data[0].name, data[0]._id, data[0]._pass, data[0].vendor);
-
-    })
-
-    if(!user){
-        res.redirect('/auth/login');
-        return;
-    }
-    res.locals.user = user;
     next();
+    // var user;
+
+    // await userManage.find({
+    //     _id : id
+    // }, function (err, data) {
+
+    //     if (err) {
+    //         if (err) console.log(err);
+    //     }
+    //     try{
+    //         user = new userMatchObject(data[0].name, data[0]._id, data[0]._pass, data[0].vendor);
+    //     }
+    //     catch(err){
+    //         console.log(err);
+    //     } 
+    // }).then(function () {
+    //     if (!user) {
+            
+    //         res.redirect('/auth/login');
+    //         return;
+    //     }
+    //     res.locals.user = user;
+    //     next();
+    // })
 }
+
 
 module.exports.postCreat = function (req, res, next) {
     var non_input = [];

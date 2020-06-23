@@ -22,8 +22,9 @@ router.post('/creat', upload.single('avatar'), validate.postCreat, controller.po
 
 router.get('/errors', controller.errors);
 
-router.get('/:id', controller.view);
+router.get('/:id', controller.edit);
+
+router.post('/update', upload.single('avatar'), validate.postCreat, controller.update);
 
 
-
-module.exports = router
+module.exports = router 

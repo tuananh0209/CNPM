@@ -24,23 +24,25 @@ module.exports.report = async function (req, res) {
             if (err) return next(err);
         }
         user = new userMatchObject(data[0].name, data[0]._id, data[0].pass, data[0].vendor);
-    });
+        
+    }).maxTimeMS(1000).then(function(){
+        reportData.find({
+            vendor: user.vendor
+        }, function (err, data) {
+            if (err) console.log(err);
+    
+            if (data) {
+                reportDatas = new reportObject(data);
 
-    await reportData.find({
-        vendor: user.vendor 
-    }, function(err , data){
-        if (err) console.log(err);
-        console.log(data);
-        if (data){
-            reportDatas = new reportObject(data);
-            console.log(reportDatas);
-        }
-        res.render('reports/reports', {
-            reportData : reportDatas.data
-        });
+            }
+            res.render('reports/reports', {
+                reportData: reportDatas.data
+            });
 
+        }).maxTimeMS(1000)
     })
- 
+
+   
 }
 
 module.exports.exportFile = function(req , res){

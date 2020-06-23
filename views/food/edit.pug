@@ -1,0 +1,21 @@
+extends ../layout/layout.pug
+block content
+    h1 Edit food 
+     if request
+        each req in request
+            .alert.alert-danger= req 
+    form.d-flex.flex-column.form-group(action="/food/update", method="post", enctype="multipart/form-data" )
+        
+        label(for="name") Name
+        input.form-control#name(type="text", name="name",value=itemData?itemData.name:"")
+        
+        label(for="price") Price
+        input.form-control#price(type="text", name="price", value=itemData?itemData.price:"")
+        
+        label(for="vendor") Vendor
+        input.form-control#vendor(type="text", name="vendor", value=itemData?itemData.vendor:"")
+        
+        label(for='exampleFormControlFile1') Image
+        input.w-auto.form-control-file(type='file', name="avatar" )
+        .d-flex.flex-row.mr-auto
+            button.mr-1.btn.btn-primary.mt-2 Save
