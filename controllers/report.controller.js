@@ -6,13 +6,15 @@ const reportData = require('../models/report.model')
 const reportObject = require('../objects/report.object')
 const shortid = require('shortid')
 const md5 = require('md5')
+const moduleExport = require('../script/exportFileReport')
+var reportDatas;
+var user;
 
 module.exports.report = async function (req, res) {
     // res.render('reports/reports',{
     //     reportData : dbReport.get('report').value()
     // });
-    var reportDatas;
-    var user;
+    
 
     await userManage.find({
         _id: req.signedCookies.userId
@@ -39,4 +41,12 @@ module.exports.report = async function (req, res) {
 
     })
  
+}
+
+module.exports.exportFile = function(req , res){
+   var csv = moduleExport(reportDatas.data);
+   res.header("Content-Type", "text/csv");
+   res.attachment("Report.csv");
+   res.send(csv);
+   res.redirect('reports');
 }
