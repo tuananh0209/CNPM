@@ -17,7 +17,11 @@ const db = require('./db')
 const dbReport = require('./dbReport')
 const orderListRouter = require('./router/orderList.router')
 
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000
+}).catch(err => console.log(err.reason));
 
 
 const app = express();

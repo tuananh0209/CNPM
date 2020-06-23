@@ -9,18 +9,21 @@ block content
         th Price
         th Amount
         th Vendor
+        th Date
             tr
             each data in reportData
                 tr 
                     td= data.name
-                    td= data.id
+                    td= data.idFood
                     td= data.price
                     td= data.amount
                     td= data.vendor
+                    td= data.date
                 -total += (parseInt(data.price) * parseInt(data.amount))   
             tr
                 th Total revenue
                 td
                 td
                 td=total
+                td
                 td   

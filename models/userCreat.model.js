@@ -1,11 +1,19 @@
 var mongoose = require('mongoose');
 
-var userSchema = new mongoose.Schema({
-    name = String,
-    pass = String,
-    phone = String,
-    avatar = String,
+var userManage = new mongoose.Schema({
+    name: {
+        type: String,
+        require: true
+    },
+    pass : {
+        type: String,
+        require: true
+    },
+    vendor : {
+        type: String,
+        require: true
+    }
 });
-var user = mongoose.model('user' , userSchema , 'user');
+var userManage = mongoose.model('userManage' , userManage , 'userManage');
 
-module.exports = user;
+module.exports = userManage;
