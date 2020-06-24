@@ -4,7 +4,7 @@ const adapter = new FileSync('dbOrderLists.json')
 const dbOrderLists = low(adapter)
 
 dbOrderLists.defaults({
-        users: []
+    orderLists : []
     })
     .write()
 
