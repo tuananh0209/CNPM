@@ -5,18 +5,15 @@ block content
     table.table
         th User name
         th ID
-        th Note
         th Time order
-        th Status
         th
-            tr 
-                td 
-                td
-                td
-                td
-                td
-                td
-                    a.btn.btn-light(href='/orderList/view/' + user.id) View
-                    a.btn.btn-light(href='/users/' + user.id) Confirm
-                    a.btn.btn-light(href='/users/' + user.id) Completed
-                    a.btn.btn-light(href='/users/' + user.id) Cancel
+            each data in orderList
+                tr 
+                    td=data.userName
+                    td=data.id
+                    td=data.time
+                    td
+                        a.btn.btn-light(href='/orderList/' + data.id) View
+                        a.btn.btn-light(href='/users/' + orderList.userId) Confirm
+                        a.btn.btn-light(href='/users/' + orderList.userId) Completed
+                        a.btn.btn-light(href='/users/' + orderList.userId) Cancel
