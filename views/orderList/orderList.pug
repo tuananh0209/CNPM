@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 extends ../layout/layout.pug
 
 block content
@@ -17,24 +16,4 @@ block content
                         a.btn.btn-light(href='/orderList/' + data.id) View
                         a.btn.btn-light(href='/users/' + orderList.userId) Confirm
                         a.btn.btn-light(href='/users/' + orderList.userId) Completed
-=======
-extends ../layout/layout.pug
-
-block content
-    h1 Order list
-    table.table
-        th User name
-        th ID
-        th Time order
-        th
-            each data in orderList
-                tr 
-                    td=data.userName
-                    td=data.id
-                    td=data.time
-                    td
-                        a.btn.btn-light(href='/orderList/' + data.id) View
-                        a.btn.btn-light(href='/users/' + orderList.userId) Confirm
-                        a.btn.btn-light(href='/users/' + orderList.userId) Completed
->>>>>>> de14f9a761f0579b9b0d49696f5b5f00e61319dc
                         a.btn.btn-light(href='/users/' + orderList.userId) Cancel
