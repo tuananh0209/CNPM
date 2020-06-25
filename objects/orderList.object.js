@@ -1,12 +1,14 @@
-class orderList{
-    constructor(userName , id , note , timeOrder, food , amount){
+module.exports.orderList = class orderList{
+    constructor(userName , id  , time){
         this.id = id;
         this.userName = userName;
-        this.note = note;
-        this.timeOrder = timeOrder;
-        this.food = food;
-        this.amount = amount;
+    
+        this.time = time;
     }
 }
 
-module.exports = orderList;
+module.exports.getOrderList = class getOrderList{
+    constructor(data){
+        this.data = data
+    }
+}
