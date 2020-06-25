@@ -1,0 +1,21 @@
+extends ../layout/layout.pug
+
+block content
+    h4
+    -var i = 0;
+    table.table
+        th Number
+        th Food
+        th Amount
+            each food in foodList
+                tr
+                    -i = parseInt(i) + 1
+                    td=i
+                    td=food.name
+                    td=lists.cart[food.id]
+                    
+            tr
+                th Note
+            
+                td=lists.note
+                td
