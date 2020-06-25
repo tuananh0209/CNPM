@@ -26,8 +26,8 @@ mongoose.connect(process.env.MONGO_URL, {
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.set('view engine','pug');
-app.set('views','./views');
+app.set('view engine', 'pug');
+app.set('views', './views');
 
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({
@@ -37,18 +37,18 @@ app.use(cookieParser('process.env.SESSION_SECRET'));
 app.use(sessionMiddleware)
 app.use(express.static('public'));
 
-app.get('/',function(req , res){
+app.get('/', function (req, res) {
     res.render('index');
-}); 
+});
 
-app.use('/food',validateAuth.requestAuth, foodRouter);
+app.use('/food', validateAuth.requestAuth, foodRouter);
 app.use('/auth', loginRouter);
 app.use('/products', validateAuth.requestAuth, productsRouter);
 app.use('/cart', validateAuth.requestAuth, cartRouter);
-app.use('/reports',validateAuth.requestAuth, reportRouter);
-app.use('/orderList',validateAuth.requestAuth, orderListRouter);
-app.use('/error', validateAuth.requestAuth , errorRouter);
+app.use('/reports', validateAuth.requestAuth, reportRouter);
+app.use('/orderList', validateAuth.requestAuth, orderListRouter);
+app.use('/error', validateAuth.requestAuth, errorRouter);
 
-app.listen(port , function(){
+app.listen(port, function () {
     console.log("port: " + port);
 })
