@@ -9,16 +9,11 @@ var foodData = new mongoose.Schema({
         type: String,
         require: true
     },
-    image: { 
+    image: {
         type: String,
         require: true
     },
     price: {
-        type: String,
-        require: true
-    },
-    category: 
-    {
         type: String,
         require: true
     }
