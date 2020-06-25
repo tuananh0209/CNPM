@@ -15,6 +15,7 @@ block content
         th Image
         th Name 
         th Price
+        th Category
         th
             each data in foodData 
                 tr 
@@ -23,6 +24,7 @@ block content
                         img(src=srcIm, width="64")                
                     td= data.name
                     td= data.price
+                    td= data.category
                     td
                         a.ml-auto.btn.btn-light(href='/food/' + data._id) Edit
     

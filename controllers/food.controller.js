@@ -20,7 +20,7 @@ module.exports.foodList = async function (req, res) {
     }, function (err, data) {
 
         if (err) {
-            if (err) return next(err);
+            if (err) console.log(err);
         }
         if (data)
             user = new userMatch(data[0].name, data[0]._id, data[0]._pass, data[0].vendor);
@@ -40,7 +40,7 @@ module.exports.foodList = async function (req, res) {
             res.render('food/food', {
                 foodData: getFoodDatas.data,
                 src: req.headers.host
-            })
+            }) 
 
         });
     })
@@ -72,7 +72,8 @@ module.exports.postCreat = async function (req, res) {
         name : req.body.name,
         image : req.file.path.slice(7),
         price : req.body.price,
-        vendor: req.body.vendor
+        vendor: req.body.vendor,
+        category : req.body.category
     })
     await foodData.save(function(err){
         console.log(err);

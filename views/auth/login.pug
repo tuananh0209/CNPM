@@ -10,6 +10,7 @@ block content
         label(for="name") User name
         input.form-control#name(type="text", name="name",value=value?value.name:"")
         label(for="pass") Password
-        input.form-control#pass(type="text", name="pass", value=value?value.pass:"")
+        input.form-control#pass(type="password", name="pass", value=value?value.pass:"")
+        
         button.btn.btn-primary.mt-2 Login
         a.btn.btn-primary.ml-2.mt-2(href='/auth/creat') Sign up

@@ -13,8 +13,7 @@ const productsRouter = require('./router/products.router')
 const reportRouter = require('./router/report.router')
 const sessionMiddleware = require('./middleware/session.middleware')
 const cartRouter = require('./router/cart.router')
-const db = require('./db')
-const dbReport = require('./dbReport')
+const errorRouter = require('./router/error.router')
 const orderListRouter = require('./router/orderList.router')
 
 mongoose.connect(process.env.MONGO_URL, {
@@ -48,6 +47,7 @@ app.use('/products', validateAuth.requestAuth, productsRouter);
 app.use('/cart', validateAuth.requestAuth, cartRouter);
 app.use('/reports',validateAuth.requestAuth, reportRouter);
 app.use('/orderList',validateAuth.requestAuth, orderListRouter);
+app.use('/error', validateAuth.requestAuth , errorRouter);
 
 app.listen(port , function(){
     console.log("port: " + port);

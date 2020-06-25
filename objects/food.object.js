@@ -1,9 +1,10 @@
 module.exports.food = class food{
-    constructor(name, image, price , vendor) {
+    constructor(name, image, price , vendor , category) {
         this.name = name;
         this.image = image;
         this.vendor = vendor,
-        this.price = price
+        this.price = price,
+        this.category = category
   }
 };
 
