@@ -16,9 +16,12 @@ module.exports.postLogin = async function(req , res , next){
         if (err) {
             if (err) return next(err);
         }
-        if (data)
+        try {
         user = new userMatchObject(data[0].name , data[0]._id , data[0].pass , data[0].vendor);
-       
+        }
+        catch(err) {
+        res.redirect('/auth/login');
+        }
     }).then(function(){
         var error = [];
 
@@ -55,31 +58,39 @@ module.exports.requestAuth = async function(req , res , next){
         res.redirect('/auth/login');
         return; 
     }
-    next();
-    // var user;
+    // res.locals.user = user;
 
-    // await userManage.find({
-    //     _id : id
-    // }, function (err, data) {
+    
+    var user;
 
-    //     if (err) {
-    //         if (err) console.log(err);
-    //     }
-    //     try{
-    //         user = new userMatchObject(data[0].name, data[0]._id, data[0]._pass, data[0].vendor);
-    //     }
-    //     catch(err){
-    //         console.log(err);
-    //     } 
-    // }).then(function () {
-    //     if (!user) {
+    await userManage.find({
+        _id : id
+    }, function (err, data) {
+
+        if (err) {
+
+            if (err) console.log(err);
+        }
+        try{
+            user = new userMatchObject(data[0].name, data[0]._id, data[0]._pass, data[0].vendor);
+        }
+        catch(err){
+            console.log(err);
+            res.redirect('/auth/login');
+
+        } 
+    })
+    
+    setTimeout(function () {
+        if (!user) {
             
-    //         res.redirect('/auth/login');
-    //         return;
-    //     }
-    //     res.locals.user = user;
-    //     next();
-    // })
+            res.redirect('/auth/login');
+            return;
+        }
+        res.locals.user = user;
+        next();
+    } , 1000);
+    
 }
 
 
