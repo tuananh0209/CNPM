@@ -41,7 +41,7 @@ module.exports.report = async function (req, res) {
            
 
         })
-    }, 400);
+    }, 100);
 
     setTimeout(function(){
         res.render('reports/reports', {
