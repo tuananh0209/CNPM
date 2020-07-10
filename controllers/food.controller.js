@@ -1,4 +1,4 @@
-var db = require('../db')
+// var db = require('../db')
 const shortid = require('shortid')
 const md5 = require('md5')
 const foodModel = require('../models/food.model');
@@ -70,10 +70,11 @@ module.exports.postCreat = async function (req, res) {
 
     var foodData = new foodModel({
         name : req.body.name,
-        image : req.file.path.slice(7),
+        image : req.file.path.slice(7).replace(/\\/g,"/"),
         price : req.body.price,
         vendor: req.body.vendor
     })
+    console.log(foodData.image);
     await foodData.save(function(err){
         console.log(err);
         res.redirect('/food/food');
@@ -104,7 +105,7 @@ module.exports.update = async function(req , res){
     try {    
         var foodUpdate = new foodData.food(
             req.body.name,
-            req.file.path.slice(7),
+            req.file.path.slice(7).replace(/\\/g, "/"),
             req.body.price,
             req.body.vendor
         )
@@ -113,7 +114,7 @@ module.exports.update = async function(req , res){
         console.log(err);
          var foodUpdate = new foodData.food(
             req.body.name,
-            getItem[0].image, 
+            req.file.path.slice(7).replace(/\\/g, "/"),
             req.body.price,
             req.body.vendor
          )
@@ -136,5 +137,6 @@ module.exports.update = async function(req , res){
     res.redirect('food');
 }
 module.exports.errors = function (req, res) {
+
     res.render('users/errors');
 }

@@ -5,7 +5,7 @@ const multer = require('multer')
 var router = express.Router();
 
 const controller = require('../controllers/food.controller')
-const upload = multer({dest : "./public/image"})
+const upload = multer({dest : "./public/img/product"})
 
 router.get('/food',  controller.foodList)
 

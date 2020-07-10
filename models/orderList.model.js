@@ -9,7 +9,7 @@ var orderList = new mongoose.Schema({
         type: Object,
         require: true
     },
-    userId: {
+    userName: {
         type: String,
         require: true
     },
@@ -19,5 +19,6 @@ var orderList = new mongoose.Schema({
     }
 });
 var orderList = mongoose.model('orderList', orderList, 'orderList');
+
 
 module.exports = orderList; 

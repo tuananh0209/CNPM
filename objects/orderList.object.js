@@ -1,8 +1,8 @@
 module.exports.orderList = class orderList {
-    constructor(userName, id, time) {
+    constructor(userName, vendor , id, time) {
         this.id = id;
+        this.vendor = vendor;
         this.userName = userName;
-
         this.time = time;
     }
 }

@@ -12,7 +12,6 @@ const validateAuth = require('./validate/auth.validate')
 const productsRouter = require('./router/products.router')
 const reportRouter = require('./router/report.router')
 const sessionMiddleware = require('./middleware/session.middleware')
-const cartRouter = require('./router/cart.router')
 const errorRouter = require('./router/error.router')
 const orderListRouter = require('./router/orderList.router')
 
@@ -37,14 +36,14 @@ app.use(cookieParser('process.env.SESSION_SECRET'));
 app.use(sessionMiddleware)
 app.use(express.static('public'));
 
-app.get('/', function (req, res) {
-    res.render('index');
-});
+// app.get('/', function (req, res) {
+//     res.render('home');
+// });
 
 app.use('/food', validateAuth.requestAuth, foodRouter);
 app.use('/auth', loginRouter);
-app.use('/products', validateAuth.requestAuth, productsRouter);
-app.use('/cart', validateAuth.requestAuth, cartRouter);
+app.use('/',  productsRouter);
+
 app.use('/reports', validateAuth.requestAuth, reportRouter);
 app.use('/orderList', validateAuth.requestAuth, orderListRouter);
 app.use('/error', validateAuth.requestAuth, errorRouter);
