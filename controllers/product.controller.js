@@ -8,11 +8,12 @@ const db = require('../db');
 const { render } = require('pug');
 
 var getFoodDatas;
-var price = 0;
+var prices = 0;
 var cart;
 
 
 module.exports.products = async function (req, res) {
+        var price = 0;
 
         var sessionId = req.signedCookies.sessionId;
         var cartData = db.get('session')
@@ -56,7 +57,7 @@ module.exports.products = async function (req, res) {
                 cart : cart == undefined ? 0 : cart.length,
                 price : price
              })
-
+            prices = price;
          });
     
 
@@ -82,7 +83,7 @@ module.exports.search = function (req, res) {
         inputs: name,
         src: req.headers.host,
         cart: cart == undefined ? 0 : cart.length,
-        price: price
+        price: prices
     });
 
 };
@@ -108,7 +109,7 @@ module.exports.addCart = function (req, res, next) {
 
     if (!sessionId) {
         console.log("cookie");
-        res.redirect('/');
+        // res.redirect('/');
         return;
     }
 
@@ -140,10 +141,11 @@ module.exports.addCart = function (req, res, next) {
             .set('cart.' + productId, parseInt(count) + 1)
             .write();
 
-    res.redirect('/')
+    // res.redirect('/')
 }
 
 module.exports.cart = async function(req , res ){
+    var price = 0;
     var cartItem = [];
     var cart;
     var sessionId = req.signedCookies.sessionId;
@@ -210,8 +212,8 @@ module.exports.upCart = async function(req , res , next){
         .write();
         
         // res.redirect('http://localhost:3000/cart');
-        res.redirect('/cart');
-
+    //    res.redirect('/cart');
+        return;
     }
     catch(err){
         res.location('/cart');
@@ -221,7 +223,7 @@ module.exports.upCart = async function(req , res , next){
 }
 
 module.exports.checOut = async function(req , res){
-
+    var price = 0;
     var cartItem = [];
     var cart;
     var sessionId = req.signedCookies.sessionId;

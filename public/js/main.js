@@ -223,6 +223,10 @@
 
 })(jQuery);
 
-
-
-
+function reload(){
+    setTimeout  (  function(){
+        
+        window.location.reload();
+        console.log("reload");
+    }, 500);
+}

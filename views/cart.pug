@@ -163,9 +163,9 @@ html(lang='zxx')
                                                 .quantity
                                                     .pro-qty
                                                         form(action = "update/" + data._id , method ='post')
-                                                            button(style =" border: none ;background-color:#F5F5F5").dec.qtybtn -
+                                                            button(style =" border: none ;background-color:#F5F5F5" , onclick = "reload()").dec.qtybtn -
                                                             input(type='text', value= cartData.cart[data._id] , name = 'quantity')
-                                                            button(style =" border: none ;background-color:#F5F5F5").inc.qtybtn +
+                                                            button(style =" border: none ;background-color:#F5F5F5" ,  onclick = "reload()" ).inc.qtybtn +
                                                     -total += parseInt(data.price) * parseInt(cartData.cart[data._id]);
                                             td.shoping__cart__total= '$' + parseInt(data.price) * parseInt(cartData.cart[data._id]) 
                                             td.shoping__cart__item__close
