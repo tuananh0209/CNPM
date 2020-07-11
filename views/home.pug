@@ -110,6 +110,10 @@ html(lang='zxx')
                         .header__cart
                             ul
                                 li
+                                    a#myBtn( title ="Báo lỗi")
+                                        i.fa.fa-exclamation-triangle(aria-hidden='true')
+
+                                li
                                     a(href='cart')
                                         i.fa.fa-shopping-bag
                                         span= cart 
@@ -133,7 +137,26 @@ html(lang='zxx')
         //-                                 span.arrow_carrot-down
         //-                             input(type='text', placeholder='What do yo u need?')
         //-                             button.site-btn(type='submit') SEARCH
-                           
+
+         #myModal.modal
+    
+        #myModal.modal
+    
+            .modal-content
+                .modal-header
+                    h5 Báo lỗi hệ thống.
+                    span.close ×
+                    
+                .modal-body
+                    p Cảm ơn bạn đã hỗ trợ chũng tôi trong việc báo lỗi. Sự cố sẽ được khắc phục sớm nhất có thể.
+                    form#prospects_form(action = '/', method= "post")
+                        textarea.textarea(name='message')
+                        button( type = "submit",onclick ="reload()").mybutton Gửi nội dung
+
+
+                   
+
+                
         // Hero Section End
         // Categories Section Begin
         
@@ -160,7 +183,7 @@ html(lang='zxx')
                                     .featured__item__pic.set-bg(data-setbg=srcIm)
                                         ul.featured__item__pic__hover
                                             li
-                                                a(href = data.id , onclick = "reload()") 
+                                                a(href = data.id ,onsubmit="return false" , onclick = "reload()") 
                                                     i.fa.fa-shopping-cart
                                     .featured__item__text
                                         h6

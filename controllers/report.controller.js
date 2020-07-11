@@ -8,6 +8,7 @@ const shortid = require('shortid')
 const md5 = require('md5')
 const moduleExport = require('../script/exportFileReport');
 const { set } = require('../models/userCreat.model');
+const { report } = require('../router/auth.router');
 var reportDatas;
 var user;
 
@@ -42,10 +43,12 @@ module.exports.report = async function (req, res) {
 
         })
     }, 100);
-
     setTimeout(function(){
+    console.log(reportDatas.data);
+
         res.render('reports/reports', {
          reportData: reportDatas.data
+
         });
     }, 500);
 

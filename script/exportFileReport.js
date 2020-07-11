@@ -7,7 +7,7 @@ function download_csv(data) {
     var total = 0;
     data.forEach(function (row , index) {
         index++;
-        csv += index +"," + row.name + "," + row.price + "," + row.amount + "," + row.date;
+        csv += index +"," + row.name +"," + row.idFood + "," + row.price + "," + row.amount + "," + row.date;
         csv += "\n";
         total+= parseInt(row.price) * parseInt(row.amount);
     });

@@ -18,33 +18,37 @@ module.exports.foodList = async function (req, res) {
     await userManage.find({
         _id: req.signedCookies.userId
     }, function (err, data) {
-
-        if (err) {
-            if (err) console.log(err);
-        }
-        if (data)
-            user = new userMatch(data[0].name, data[0]._id, data[0]._pass, data[0].vendor);
-            if (!user) {
-                wait(1000)
-                res.redirect('food');
+       
+            if (err) {
+                if (err) console.log(err);
             }
-    }).then(function(){
-        foodModel.find({
-            vendor: user.vendor
-        }, function (err, data) {
-            if (err) return next(err);
-            // console.log(req.headers.host);
             if (data)
-                getFoodDatas = new foodData.getFood(data);
-            // console.log(data);
-            res.render('food/food', {
-                foodData: getFoodDatas.data,
-                src: req.headers.host
-            })
-
-        });
+                user = new userMatch(data[0].name, data[0]._id, data[0]._pass, data[0].vendor);
+                if (!user) {
+                    
+                    res.redirect('food');
+                }
+           
     })
+    
+        setTimeout(function(){
+            foodModel.find({
+                vendor: user.vendor
+            }, function (err, data) {
+                if (err) return next(err);
+                // console.log(req.headers.host);
+                if (data)
+                    getFoodDatas = new foodData.getFood(data);
+                // console.log(data);
+                res.render('food/food', {
+                    foodData: getFoodDatas.data,
+                    src: req.headers.host
+                })
 
+            });
+    
+        },100);
+    
    
 };
 
@@ -94,7 +98,7 @@ module.exports.edit = async function (req, res) {
     getItem = getFoodDatas.data.filter(function(data){
         return data._id == id;
     })
-    // console.log(getItem);
+    console.log(getItem[0]);
     res.render('food/edit', {
         itemData : getItem[0]
     });
@@ -102,6 +106,8 @@ module.exports.edit = async function (req, res) {
 
 module.exports.update = async function(req , res){
     
+   
+
     try {    
         var foodUpdate = new foodData.food(
             req.body.name,
@@ -114,12 +120,12 @@ module.exports.update = async function(req , res){
         console.log(err);
          var foodUpdate = new foodData.food(
             req.body.name,
-            req.file.path.slice(7).replace(/\\/g, "/"),
+            getItem[0].image,
             req.body.price,
             req.body.vendor
          )
     }
-   
+    console.log(req.body);
   
 
     await foodModel.findByIdAndUpdate({

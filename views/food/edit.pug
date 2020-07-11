@@ -16,6 +16,6 @@ block content
         input.form-control#vendor(type="text", name="vendor", value=itemData?itemData.vendor:"")
         
         label(for='exampleFormControlFile1') Image
-        input.w-auto.form-control-file(type='file', name="avatar" )
+        input.w-auto.form-control-file(type='file', name="avatar" ,file = itemData ? itemData.image:"")
         .d-flex.flex-row.mr-auto
             button.mr-1.btn.btn-primary.mt-2 Save

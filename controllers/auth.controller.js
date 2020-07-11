@@ -24,14 +24,16 @@ module.exports.postLogin = async function(req , res){
     await userManage.find({
         name: req.body.name
     }, function(err , data){
-        console.log(data[0]._id);
-        if(err) {
-            if (err) return next(err);
-        }
-        res.cookie('userId', data[0]._id, {
-             signed : true
-        });
-        res.redirect('/');
+        setTimeout(function(){
+            console.log(data[0]._id);
+            if(err) {
+                if (err) return next(err);
+            }
+            res.cookie('userId', data[0]._id, {
+                signed : true
+            });
+            res.redirect('/');
+        }, 100);
     })
 }
 

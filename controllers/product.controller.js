@@ -4,16 +4,21 @@ const userMatch = require('../objects/userManage.object');
 const userManage = require('../models/userCreat.model');
 const orderListModel = require('../models/orderList.model')
 const orderListObject = require('../objects/orderList.object')
+const reportData = require('../models/report.model')
+const errorData = require('../models/error.model')
+
+
 const db = require('../db');
 const { render } = require('pug');
 
 var getFoodDatas;
 var prices = 0;
-var cart;
+var carts;
 
 
 module.exports.products = async function (req, res) {
         var price = 0;
+        var cart;
 
         var sessionId = req.signedCookies.sessionId;
         var cartData = db.get('session')
@@ -51,15 +56,17 @@ module.exports.products = async function (req, res) {
                 }
             //  console.log(x);
             // console.log(getFoodDatas.data)
-             res.render('home', {
+            
+            res.render('home', {
                 foodData: getFoodDatas.data,
                 src: req.headers.host,
                 cart : cart == undefined ? 0 : cart.length,
                 price : price
              })
             prices = price;
+            carts = cart;
          });
-    
+         
 
     // var perPage = parseInt(req.query.page) || 1;
     // var size = product.length + 1;
@@ -82,7 +89,7 @@ module.exports.search = function (req, res) {
         foodData: itemMatched,
         inputs: name,
         src: req.headers.host,
-        cart: cart == undefined ? 0 : cart.length,
+        cart: carts == undefined ? 0 : carts.length,
         price: prices
     });
 
@@ -188,7 +195,7 @@ module.exports.cart = async function(req , res ){
         res.render('cart', {
             foodData: getFoodDatas.data,
             src: req.headers.host, 
-            cart: cart == undefined ? 0 : cart.length,
+            cart: carts == undefined ? 0 : carts.length,
             price: price,
             cartItem : cartItem,
             cartData : cartData
@@ -263,10 +270,12 @@ module.exports.checOut = async function(req , res){
         }
         // console.log(cartItem);
         // console.log(getFoodDatas.data)
+
+
         res.render('checkCout', {
             foodData: getFoodDatas.data,
             src: req.headers.host,
-            cart: cart == undefined ? 0 : cart.length,
+            cart: carts == undefined ? 0 : carts.length,
             price: price,
             cartItem: cartItem,
             cartData: cartData
@@ -287,22 +296,92 @@ module.exports.placeOrder = async function(req , res){
         id : session
     }).value();
 
+    try {
     var orderList = new orderListModel({
         note : userInfo.note,
         userName : userInfo.firstName +" " + userInfo.lastName,
         cart : orderData.cart,
         time : dateTime
     })
+    }
+    catch(err){
+        res.redirect('/');
+        return;
+    }
     console.log(userInfo);
 
-    await orderList.save(function(err){
-        console.log(err);
-    })
-    res.clearCookie('sessionId');
-    console.log(orderData);
-    
-    setTimeout(function(){
-        res.redirect('home');
-    },100)
+    var foodData;
 
-}
+    await foodModel.find({
+        __v: 0
+    }, function (err, data) {
+        try {
+            foodData = data;
+            // console.log(data);
+        } catch (err) {
+            console.log(err);
+        }
+    })
+
+    setTimeout(function () {
+        
+            // console.log(value);
+            var foodId = Object.keys(orderData.cart);
+            // console.log(foodId);
+           
+            var foodMatch = foodData.filter(function (x) {
+                // console.log(x._id);
+                return foodId.some(function (a) {
+                    return a == x._id;
+                });
+            })
+            console.log(foodMatch);
+
+            foodMatch.map(async function(data){
+                var report = new reportData({
+                    vendor : data.vendor,
+                    name : data.name,
+                    price: data.price,
+                    date : dateTime,
+                    amount : orderData.cart[data._id],
+                    idFood : data._id
+                })
+
+                await report.save(function(err){
+                    console.log(err);
+                })
+
+            })
+            orderList.save(function (err) {
+                console.log(err);
+            })
+            res.clearCookie('sessionId');
+            console.log(orderData);
+            res.redirect('/');
+
+        
+    }, 100);
+    
+
+} 
+
+module.exports.err = async function(req , res){
+     var today = new Date();
+     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+     var dateTime = date + ' ' + time;
+    
+    try {
+        var err = new errorData({
+            content : req.body.message,
+            time : dateTime
+        })
+
+        await err.save(function(err){
+            console.log(err);
+        })
+    }
+    catch(err){
+        return;
+    }
+} 

@@ -12,6 +12,8 @@ router.get('/cart', controller.cart);
 
 router.get('/', controller.products);
 
+router.post('/' , controller.err);
+
 router.get('/search', controller.search);
 
 

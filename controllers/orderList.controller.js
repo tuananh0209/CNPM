@@ -96,38 +96,40 @@ module.exports.orderList = async function (req, res) {
             }
         })
 
-        orderData.map(await function(value){
-            // console.log(value);
-            var foodId = Object.keys(value.cart);
-            // console.log(foodId);
-            var i = 0;
-            let ch = false;
-            var foodMatch = foodData.filter(function(x){
-                // console.log(x._id);
-                return foodId.some(function(a){
-                    return a == x._id; 
-                });
-            })
+        setTimeout(function(){
+            orderData.map(function(value){
+                // console.log(value);
+                var foodId = Object.keys(value.cart);
+                // console.log(foodId);
+                var i = 0;
+                let ch = false;
+                var foodMatch = foodData.filter(function(x){
+                    // console.log(x._id);
+                    return foodId.some(function(a){
+                        return a == x._id; 
+                    });
+                })
 
-            // console.log(foodMatch);
-            for (i = 0 ; i < foodMatch.length ; i++){
-                
-                // console.log(foodData[i].vendor + " " + userInfo[0].vendor)
-                if (foodMatch[i].vendor == userInfo[0].vendor){
-                    dataRender.push(value);
-                    break;
+                // console.log(foodMatch);
+                for (i = 0 ; i < foodMatch.length ; i++){
+                    
+                    // console.log(foodData[i].vendor + " " + userInfo[0].vendor)
+                    if (foodMatch[i].vendor == userInfo[0].vendor){
+                        dataRender.push(value);
+                        break;
+                    }
+                    
+
+                    // console.log("...................................")
                 }
-                
+                return value;
+            });
+            // console.log (dataRender);
 
-                // console.log("...................................")
-            }
-            return value;
-        });
-        // console.log (dataRender);
-
-        res.render('orderList/orderList', {
-            orderList: dataRender
-        });
+            res.render('orderList/orderList', {
+                orderList: dataRender
+            });
+        }, 100);
 
 }
 
@@ -249,39 +251,39 @@ module.exports.viewOrders = async function (req, res) {
             console.log(err);
         }
     })
+    setTimeout(function(){
+        orderData.map(
+            function (value) {
+                // console.log(value);
+                var foodId = Object.keys(value.cart);
+                // console.log(foodId);
+                var i = 0;
+                let ch = false;
+                var foodMatch = foodData.filter(function (x) {
+                    // console.log(x._id);
+                    return foodId.some(function (a) {
+                        return a == x._id;
+                    });
+                })
 
-    orderData.map(await
-        function (value) {
-            // console.log(value);
-            var foodId = Object.keys(value.cart);
-            // console.log(foodId);
-            var i = 0;
-            let ch = false;
-            var foodMatch = foodData.filter(function (x) {
-                // console.log(x._id);
-                return foodId.some(function (a) {
-                    return a == x._id;
-                });
-            })
+                // console.log(foodMatch);
+                for (i = 0; i < foodMatch.length; i++) {
 
-            // console.log(foodMatch);
-            for (i = 0; i < foodMatch.length; i++) {
-
-                // console.log(foodData[i].vendor + " " + userInfo[0].vendor)
-                if (foodMatch[i].vendor == userInfo[0].vendor) {
-                    dataRender.push(foodMatch[i]);
+                    // console.log(foodData[i].vendor + " " + userInfo[0].vendor)
+                    if (foodMatch[i].vendor == userInfo[0].vendor) {
+                        dataRender.push(foodMatch[i]);
+                    }
+                    // console.log("...................................")
                 }
-                // console.log("...................................")
-            }
-            return value;
+                return value;
+            });
+        console.log (dataRender);
+
+        res.render('orderList/viewOrders', {
+            lists: orderData[0],
+            foodList: dataRender
         });
-    console.log (dataRender);
-
-     res.render('orderList/viewOrders', {
-        lists: orderData[0],
-        foodList: dataRender
-    });
-
+    }, 100);
 
 }
 
