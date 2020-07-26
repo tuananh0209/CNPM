@@ -1,6 +1,3 @@
-// var db = require('../db')
-const shortid = require('shortid')
-const md5 = require('md5')
 const foodModel = require('../models/food.model');
 const foodData = require('../objects/food.object');
 const userMatch = require('../objects/userManage.object');
@@ -36,10 +33,9 @@ module.exports.foodList = async function (req, res) {
                 vendor: user.vendor
             }, function (err, data) {
                 if (err) return next(err);
-                // console.log(req.headers.host);
                 if (data)
                     getFoodDatas = new foodData.getFood(data);
-                // console.log(data);
+              
                 res.render('food/food', {
                     foodData: getFoodDatas.data,
                     src: req.headers.host
@@ -66,7 +62,6 @@ module.exports.search = function (req, res) {
 };
 
 module.exports.creat = function (req, res) {
-    console.log(req.cookies); 
     res.render('food/creat');
 };
 
@@ -78,27 +73,18 @@ module.exports.postCreat = async function (req, res) {
         price : req.body.price,
         vendor: req.body.vendor
     })
-    console.log(foodData.image);
     await foodData.save(function(err){
-        console.log(err);
         res.redirect('/food/food');
     })
 };
 
 module.exports.edit = async function (req, res) { 
     
-    // await foodDatas.findByIdAndUpdate({
-    //     _id : req.params.id
-    // }, function(err , data){
-    //     if(err) console.log(err);
-    //     console.log(data);
-    // })
-
     id = req.params.id;
     getItem = getFoodDatas.data.filter(function(data){
         return data._id == id;
     })
-    console.log(getItem[0]);
+   
     res.render('food/edit', {
         itemData : getItem[0]
     });
@@ -117,17 +103,14 @@ module.exports.update = async function(req , res){
         )
     }
     catch(err){
-        console.log(err);
          var foodUpdate = new foodData.food(
             req.body.name,
             getItem[0].image,
             req.body.price,
             req.body.vendor
          )
-    }
-    console.log(req.body);
+    }   
   
-
     await foodModel.findByIdAndUpdate({
         _id : id
     }, {
@@ -137,7 +120,6 @@ module.exports.update = async function(req , res){
     },
     function (err, data) {
         if(err) console.log(err);
-        console.log(data);
     })
 
     res.redirect('food');

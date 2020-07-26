@@ -6,7 +6,6 @@ module.exports.errors = async function (req, res) {
     }, function(err , data){
         if (err) console.log(err);
         try{
-            console.log(data[0].content);
             res.render('error/errors',{
                 error : data
             });

@@ -1,10 +1,5 @@
 const express = require('express')
 const controller = require('../controllers/product.controller')
-const multer = require('multer')
-const cookieParser = require('cookie-parser')
-const upload = multer({
-    dest: "./public/image"
-})
 
 const router = express.Router()
 

@@ -26,6 +26,7 @@ var reportData = new mongoose.Schema({
         require: true
     }
 });
+
 var reportData = mongoose.model('reportData', reportData, 'reportData');
 
 module.exports = reportData;

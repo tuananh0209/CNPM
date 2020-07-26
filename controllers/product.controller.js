@@ -34,7 +34,7 @@ module.exports.products = async function (req, res) {
             cart = [];
         }
             
-        // console.log(cart);
+
         await foodModel.find({
              
          }, function (err, data) {
@@ -51,11 +51,10 @@ module.exports.products = async function (req, res) {
                             } 
                             return data._id == value;
                         })
-                        // console.log(price);
+               
                     });
                 }
-            //  console.log(x);
-            // console.log(getFoodDatas.data)
+   
             
             res.render('home', {
                 foodData: getFoodDatas.data,
@@ -69,16 +68,6 @@ module.exports.products = async function (req, res) {
          });
          
 
-    // var perPage = parseInt(req.query.page) || 1;
-    // var size = product.length + 1;
-    // var begin = (perPage - 1) * 16;
-    // var end = (perPage - 1) * 16 + 16;
-    // console.log(size);
-    // res.render('products/products',{
-    //     product : product.slice(begin , end),
-    //     page : size / 16,
-    //     perPage : perPage
-    // });
 }
 
 module.exports.search = function (req, res) {
@@ -96,19 +85,6 @@ module.exports.search = function (req, res) {
 
 };
 
-// module.exports.addCart = function(req , res){
-//     var id = req.params.id;
-//     var i = 1;
-//     var getSessionStorage = sessionStorage.getItem('id');
-//     if (getSessionStorage == NULL) {
-//         sessionStorage.setItem(id , i);
-//     } else {
-//         i = getSessionStorage.value + 1;
-//         sessionStorage.setItem(id , i );
-//     }
-//     redirect('home');
-// }
-
 
 module.exports.addCart = function (req, res, next) {
     var productId = req.body.id;
@@ -116,11 +92,11 @@ module.exports.addCart = function (req, res, next) {
     
     
     if (!sessionId) {
-        console.log("cookie");
+       
         res.redirect('/');
         return;
     }
-    console.log("Add")
+    
     var check = db.get('session').find({
         id : sessionId
     }).value();
@@ -169,12 +145,12 @@ module.exports.cart = async function(req , res ){
         res.render('cartEmpty');
         return;
     }
-    // console.log(cart);
+  
     await foodModel.find({
  
     }, function (err, data) {
         if (err) return next(err);
-        // console.log(req.headers.host);
+     
         if (data)
             getFoodDatas = new foodData.getFood(data);
         var i = 0;
@@ -187,11 +163,10 @@ module.exports.cart = async function(req , res ){
                     }
                     return data._id == value;
                 });
-                // console.log(price);
+              
             });
         }
-        // console.log(cartItem);
-        // console.log(getFoodDatas.data)
+    
         res.render('cart', {
             foodData: getFoodDatas.data,
             src: req.headers.host, 
@@ -209,10 +184,10 @@ module.exports.upCart = async function(req , res , next){
     var quantity = req.body.quantity;
     var id = req.body.id;
     var session = req.signedCookies.sessionId;
-    console.log(id);
+
     try {
         if (quantity != '0'){
-            console.log("1")
+     
 
             var getData = db.get('session')
                 .find({
@@ -257,9 +232,7 @@ module.exports.upCart = async function(req , res , next){
                     })
                     .write();
             }
-            console.log(getData);
-        // res.redirect('http://localhost:3000/cart');
-    //    res.redirect('/cart');
+             
         return;
         }
     }
@@ -288,12 +261,12 @@ module.exports.checOut = async function(req , res){
         res.render('cartEmpty');
         return;
     }
-    // console.log(cart);
+   
     await foodModel.find({
 
     }, function (err, data) {
         if (err) return next(err);
-        // console.log(req.headers.host);
+   
         if (data)
             getFoodDatas = new foodData.getFood(data);
         var i = 0;
@@ -306,11 +279,10 @@ module.exports.checOut = async function(req , res){
                     }
                     return data._id == value;
                 });
-                // console.log(price);
+            
             });
         }
-        // console.log(cartItem);
-        // console.log(getFoodDatas.data)
+     
 
 
         res.render('checkCout', {
@@ -327,9 +299,9 @@ module.exports.checOut = async function(req , res){
 module.exports.placeOrder = async function(req , res){
     var session = req.signedCookies.sessionId;
     var userInfo = req.body;
-    var today = new Date();
-    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var d = new Date();
+    var date = d.toLocaleDateString();
+    var time = d.toLocaleTimeString();
     var dateTime = date + ' ' + time;
 
     var status = {};
@@ -339,16 +311,7 @@ module.exports.placeOrder = async function(req , res){
         id : session
     }).value();
 
-    try {
     
-    console.log(orderData)
-    
-    }
-    catch(err){
-        res.redirect('/');
-        return;
-    }
-    console.log(userInfo);
 
     var foodData;
 
@@ -357,7 +320,7 @@ module.exports.placeOrder = async function(req , res){
     }, function (err, data) {
         try {
             foodData = data;
-            // console.log(data);
+           
         } catch (err) {
             console.log(err);
         }
@@ -365,17 +328,13 @@ module.exports.placeOrder = async function(req , res){
 
     setTimeout(function () {
         
-            // console.log(value);
             var foodId = Object.keys(orderData.cart);
-            // console.log(foodId);
            
             var foodMatch = foodData.filter(function (x) {
-                // console.log(x._id);
                 return foodId.some(function (a) {
                     return a == x._id;
                 });
             })
-            console.log(foodMatch);
             var statusKey = [];
             foodMatch.map(async function(data){
                 var report = new reportData({
@@ -394,7 +353,7 @@ module.exports.placeOrder = async function(req , res){
                 
 
                 await report.save(function(err){
-                    console.log(err);
+                  
                 })
 
             })
@@ -408,18 +367,17 @@ module.exports.placeOrder = async function(req , res){
             })
          
             orderList.save(function (err) {
-                console.log(err);
+               
             })
             res.clearCookie('sessionId');
-            console.log(orderData);
             res.redirect('/');
     }, 100);
 } 
 
 module.exports.err = async function(req , res){
-     var today = new Date();
-     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+     var dd = new Date();
+     var date = dd.toLocaleDateString();
+     var time = dd.toLocaleTimeString();
      var dateTime = date + ' ' + time;
     
     try {
@@ -429,7 +387,7 @@ module.exports.err = async function(req , res){
         })
 
         await err.save(function(err){
-            console.log(err);
+          
         })
     }
     catch(err){

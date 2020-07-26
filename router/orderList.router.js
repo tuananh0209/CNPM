@@ -9,6 +9,4 @@ router.get('/:id', controller.viewOrders);
 
 router.get('/complete/:id' , controller.complete);
 
-// router.get('/:id', controller.view);
-
 module.exports = router 

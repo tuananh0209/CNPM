@@ -5,7 +5,6 @@ const userManage = require('../models/userCreat.model');
 const md5 = require('md5')
 
 module.exports.postLogin = async function(req , res , next){
-    var userName = req.body.name;
     var pass = req.body.pass;
     var user;
 
@@ -58,7 +57,6 @@ module.exports.requestAuth = async function(req , res , next){
         res.redirect('/auth/login');
         return; 
     }
-    // res.locals.user = user;
 
     
     var user;

@@ -2,7 +2,7 @@ extends ../layout/layout.pug
 
 block content
 
-    a.mb-2.pb-10.btn.btn-primary(href='/reports/export') Export
+    a.mb-2.pb-10.btn.btn-primary(href='#' onclick ="download_csv()") Export
     -var total = 0;
     table.table
         th Name
@@ -19,12 +19,40 @@ block content
                     td= data.price
                     td= data.amount
                     td= data.vendor
-                    td= data.date
+                    
                 -total += (parseInt(data.price) * parseInt(data.amount))   
-            tr
-                th Total revenue
-                td
-                td
-                td=total
-                td
-                td   
+        
+        table.table
+            th Date 
+            th= lastDay
+            th -
+            th= toDay
+            
+                tr
+            th Total revenue
+            th=total
+            th
+            th
+    script(src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js')        
+    script.
+
+        var data;
+        axios.get('/reports/export').then(function(res){
+            data = res.data;
+            //- console.log(res.data);
+        })
+        
+
+        function download_csv() {
+            setTimeout(function(){
+
+                var csv = data;
+
+                var hiddenElement = document.createElement('a');
+                hiddenElement.textContent='download';
+                hiddenElement.href = 'data:text/csv;charset=utf-8,%EF%BB%BF'+encodeURIComponent(csv);
+                //- hiddenElement.target = '_blank';
+                hiddenElement.download = 'Report.csv';
+                hiddenElement.click();
+            }, 1000);
+        }
