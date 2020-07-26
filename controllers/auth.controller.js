@@ -36,7 +36,7 @@ module.exports.postLogin = async function(req , res){
             res.cookie('userId', data[0]._id, {
                 signed : true
             });
-            res.redirect('http://localhost:3000/index');
+            res.redirect('/index');
         }, 100);
     })
 }
