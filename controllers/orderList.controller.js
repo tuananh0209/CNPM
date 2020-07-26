@@ -68,15 +68,15 @@ module.exports.orderList = async function (req, res) {
                 userInfo = userData;
             }
             catch(err){
-                res.redirect(orderList / orderList);
+                res.redirect('orderList/orderList');
             }
         })
-        // console.log(userInfo[0]);
+     
         await orderListModel.find({
             __v : 0
         }, function(err , data){
             try {
-                // console.log(data);
+                console.log(data);
                 orderData = data;
             }
             catch(err){
@@ -102,7 +102,7 @@ module.exports.orderList = async function (req, res) {
                 var foodId = Object.keys(value.cart);
                 // console.log(foodId);
                 var i = 0;
-                let ch = false;
+             
                 var foodMatch = foodData.filter(function(x){
                     // console.log(x._id);
                     return foodId.some(function(a){
@@ -115,6 +115,7 @@ module.exports.orderList = async function (req, res) {
                     
                     // console.log(foodData[i].vendor + " " + userInfo[0].vendor)
                     if (foodMatch[i].vendor == userInfo[0].vendor){
+                        if (value.status[userInfo[0].vendor] == false) 
                         dataRender.push(value);
                         break;
                     }
@@ -124,13 +125,13 @@ module.exports.orderList = async function (req, res) {
                 }
                 return value;
             });
-            // console.log (dataRender);
+      
 
             res.render('orderList/orderList', {
-                orderList: dataRender
+                orderList: dataRender,
+                
             });
         }, 100);
-
 }
 
 // module.exports.view = function (req, res) {
@@ -277,7 +278,7 @@ module.exports.viewOrders = async function (req, res) {
                 }
                 return value;
             });
-        console.log (dataRender);
+    
 
         res.render('orderList/viewOrders', {
             lists: orderData[0],
@@ -312,3 +313,49 @@ module.exports.viewOrders = async function (req, res) {
 
 //     res.redirect('/products/products')
 // }
+
+module.exports.complete = async function(req , res){
+    var id = req.params.id;
+    var userId = req.signedCookies.userId;
+
+    var userInfo;
+    var orderData;
+    var foodData;
+    var dataRender = [];
+    try{
+        await userManage.findById(
+            userId
+        , function (err, userData) {
+            try {
+                userInfo = userData;
+            } catch (err) {
+                res.redirect(orderList / orderList);
+            }
+        })
+
+        // console.log(userInfo[0]);
+        await orderListModel.findOne({
+            _id : id
+        }
+        , function (err, data) {
+
+            orderData = data;
+            data.status[userInfo.vendor] = true;
+            console.log(data);
+        });
+
+        await orderListModel.findOneAndUpdate({
+            _id: id
+        }, orderData, {
+            upsert: true
+        },
+        function (err, data) {
+           console.log(err); 
+            res.redirect('/orderList/orderList')
+        })
+    }
+
+    catch(err){
+        res.redirect('/orderList/orderList')
+    }
+}

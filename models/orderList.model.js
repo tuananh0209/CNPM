@@ -16,6 +16,10 @@ var orderList = new mongoose.Schema({
     time: {
         type: String,
         require: true
+    },
+    status :{
+        type: Object,
+        require: true
     }
 });
 var orderList = mongoose.model('orderList', orderList, 'orderList');

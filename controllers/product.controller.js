@@ -332,18 +332,17 @@ module.exports.placeOrder = async function(req , res){
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + ' ' + time;
 
+    var status = {};
+
     var orderData = db.get('session')
     .find({
         id : session
     }).value();
 
     try {
-    var orderList = new orderListModel({
-        note : userInfo.note,
-        userName : userInfo.firstName +" " + userInfo.lastName,
-        cart : orderData.cart,
-        time : dateTime
-    })
+    
+    console.log(orderData)
+    
     }
     catch(err){
         res.redirect('/');
@@ -377,7 +376,7 @@ module.exports.placeOrder = async function(req , res){
                 });
             })
             console.log(foodMatch);
-
+            var statusKey = [];
             foodMatch.map(async function(data){
                 var report = new reportData({
                     vendor : data.vendor,
@@ -388,22 +387,33 @@ module.exports.placeOrder = async function(req , res){
                     idFood : data._id
                 })
 
+                if (statusKey.indexOf(data.vendor) == -1){
+                    statusKey.push(data.vendor);
+                    status[data.vendor] = false;
+                }
+                
+
                 await report.save(function(err){
                     console.log(err);
                 })
 
             })
+        
+            var orderList = new orderListModel({
+                note: userInfo.note,
+                userName: userInfo.firstName + " " + userInfo.lastName,
+                cart: orderData.cart,
+                time: dateTime,
+                status : status
+            })
+         
             orderList.save(function (err) {
                 console.log(err);
             })
             res.clearCookie('sessionId');
             console.log(orderData);
             res.redirect('/');
-
-        
     }, 100);
-    
-
 } 
 
 module.exports.err = async function(req , res){
