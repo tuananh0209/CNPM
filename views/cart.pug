@@ -1,3 +1,4 @@
+
 doctype html
 html(lang='zxx')
     head
@@ -6,7 +7,7 @@ html(lang='zxx')
         meta(name='keywords', content='Ogani, unica, creative, html')
         meta(name='viewport', content='width=device-width, initial-scale=1.0')
         meta(http-equiv='X-UA-Compatible', content='ie=edge')
-        title Ogani | Template
+        title Food Court
         // Google Font
         link(href='https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap', rel='stylesheet')
         // Css Styles
@@ -22,75 +23,7 @@ html(lang='zxx')
         // Page Preloder
         
         // Humberger Begin
-        .humberger__menu__overlay
-        .humberger__menu__wrapper
-            .humberger__menu__logo
-                a(href='#')
-                    img(src='img/logo.png', alt='')
-            .humberger__menu__cart
-                ul
-                    li
-                        a(href='#')
-                            i.fa.fa-heart
-                            span 1
-                    li
-                        a(href='#')
-                            i.fa.fa-shopping-bag
-                            span 3
-                .header__cart__price
-                    | item: 
-                    span $150.00
-            .humberger__menu__widget
-                .header__top__right__language
-                    img(src='img/language.png', alt='')
-                    div English
-                    span.arrow_carrot-down
-                    ul
-                        li
-                            a(href='#') Spanis
-                        li
-                            a(href='#') English
-                .header__top__right__auth
-                    a(href='#')
-                        i.fa.fa-user
-                        |  Login
-            nav.humberger__menu__nav.mobile-menu
-                ul
-                    li.active
-                        a(href='./index.html') Home
-                    li
-                        a(href='./shop-grid.html') Shop
-                    li
-                        a(href='#') Pages
-                        ul.header__menu__dropdown
-                            li
-                                a(href='./shop-details.html') Shop Details
-                            li
-                                a(href='./shoping-cart.html') Shoping Cart
-                            li
-                                a(href='./checkout.html') Check Out
-                            li
-                                a(href='./blog-details.html') Blog Details
-                    li
-                        a(href='./blog.html') Blog
-                    li
-                        a(href='./contact.html') Contact
-            #mobile-menu-wrap
-            .header__top__right__social
-                a(href='#')
-                    i.fa.fa-facebook
-                a(href='#')
-                    i.fa.fa-twitter
-                a(href='#')
-                    i.fa.fa-linkedin
-                a(href='#')
-                    i.fa.fa-pinterest-p
-            .humberger__menu__contact
-                ul
-                    li
-                        i.fa.fa-envelope
-                        |  hello@colorlib.com
-                    li Free Shipping for all Order of $99
+        
         // Humberger End
         // Header Section Begin
         header.header
@@ -111,14 +44,17 @@ html(lang='zxx')
                         .header__cart
                             ul
                                 li
-                                    a(href='/cart')
+                                    a#myBtn( title ="Báo lỗi" , onclick ="modal()")
+                                        i.fa.fa-exclamation-triangle(aria-hidden='true')
+            
+                                li
+                                    a(href='cart')
                                         i.fa.fa-shopping-bag
-                                        span= cart 
+                                        span#cart= cart 
                             .header__cart__price
                                 | item: 
-                                span=  '$' + price
-                .humberger__open
-                    i.fa.fa-bars
+                                span#price()=  '$' + price
+                
         // Header Section End
         // Hero Section Begin
         
@@ -131,7 +67,7 @@ html(lang='zxx')
                         .breadcrumb__text
                             h2 Shopping Cart
                             .breadcrumb__option
-                                a(href='./index.html') Home
+                                a(href='/') Home
                                 span Shopping Cart
         // Breadcrumb Section End
         // Shoping Cart Section Begin
@@ -152,7 +88,7 @@ html(lang='zxx')
                                         th
                                 tbody
                                     each data in cartItem
-                                        tr
+                                        tr(id = "deleteItem" + data.id)
                                             td.shoping__cart__item
                                                 -var srcIm = data.image
                                                 
@@ -162,15 +98,15 @@ html(lang='zxx')
                                             td.shoping__cart__quantity
                                                 .quantity
                                                     .pro-qty
-                                                        form(action = "update/" + data._id , method ='post')
-                                                            button(style =" border: none ;background-color:#F5F5F5" , onclick = "reload()").dec.qtybtn -
-                                                            input(type='text', value= cartData.cart[data._id] , name = 'quantity')
-                                                            button(style =" border: none ;background-color:#F5F5F5" ,  onclick = "reload()" ).inc.qtybtn +
+                                                        
+                                                        button(style = " border: none ;background-color:#F5F5F5", onclick = "update_cart(event)", id = data.id,  price = data.price).dec.qtybtn -
+                                                        input(id = "input" + data.id  , type = 'text', value = cartData.cart[data._id], name = 'quantity' )
+                                                        button(style = " border: none ;background-color:#F5F5F5", onclick = "update_cart(event)", id = data.id, price = data.price).inc.qtybtn +
                                                     -total += parseInt(data.price) * parseInt(cartData.cart[data._id]);
-                                            td.shoping__cart__total= '$' + parseInt(data.price) * parseInt(cartData.cart[data._id]) 
+                                            td.shoping__cart__total(id ="total" + data.id )= '$' + parseInt(data.price) * parseInt(cartData.cart[data._id]) 
                                             td.shoping__cart__item__close
-                                                span.icon_close
-
+                                                span.icon_close(id = "delete"+ data.id  , onclick = "deleteItem(event)")
+       
                 .row
                     .col-lg-12
                         .shoping__cart__btns
@@ -184,70 +120,26 @@ html(lang='zxx')
                                 li
                                     | Subtotal
                                     
-                                    span= '$' + total
+                                    span(id = "bil")= '$' + total
                                 li
                                     | Total 
-                                    span= '$' + total
+                                    span(id = "bil1")= '$' + total
                             a.primary-btn(href='check_out') PROCEED TO CHECKOUT
         // Shoping Cart Section End
         // Footer Section Begin
+        #myModal.modal
+            .modal-content
+                .modal-header
+                    h5 Báo lỗi hệ thống.
+                    span.close ×
+                .modal-body
+                    p#text_er Cảm ơn bạn đã hỗ trợ chũng tôi trong việc báo lỗi.Sự cố sẽ được khắc phục sớm nhất có thể.
+                        textarea.textarea#err(name = 'message')
+                        button(type = "submit", onclick = "send_er()").mybutton Gửi nội dung
+                    p#text1 Đã gửi.
         footer.footer.spad
             .container
-                .row
-                    .col-lg-3.col-md-6.col-sm-6
-                        .footer__about
-                            .footer__about__logo
-                                a(href='/')
-                                    img(src='img/logo.png', alt='')
-                            ul
-                                li Address: 60-49 Road 11378 New York
-                                li Phone: +65 11.188.888
-                                li Email: hello@colorlib.com
-                    .col-lg-4.col-md-6.col-sm-6.offset-lg-1
-                        .footer__widget
-                            h6 Useful Links
-                            ul
-                                li
-                                    a(href='#') About Us
-                                li
-                                    a(href='#') About Our Shop
-                                li
-                                    a(href='#') Secure Shopping
-                                li
-                                    a(href='#') Delivery infomation
-                                li
-                                    a(href='#') Privacy Policy
-                                li
-                                    a(href='#') Our Sitemap
-                            ul
-                                li
-                                    a(href='#') Who We Are
-                                li
-                                    a(href='#') Our Services
-                                li
-                                    a(href='#') Projects
-                                li
-                                    a(href='#') Contact
-                                li
-                                    a(href='#') Innovation
-                                li
-                                    a(href='#') Testimonials
-                    .col-lg-4.col-md-12
-                        .footer__widget
-                            h6 Join Our Newsletter Now
-                            p Get E-mail updates about our latest shop and special offers.
-                            form(action='#')
-                                input(type='text', placeholder='Enter your mail')
-                                button.site-btn(type='submit') Subscribe
-                            .footer__widget__social
-                                a(href='#')
-                                    i.fa.fa-facebook
-                                a(href='#')
-                                    i.fa.fa-instagram
-                                a(href='#')
-                                    i.fa.fa-twitter
-                                a(href='#')
-                                    i.fa.fa-pinterest
+               
                 .row
                     .col-lg-12
                         .footer__copyright
@@ -274,3 +166,108 @@ html(lang='zxx')
         script(src='js/mixitup.min.js')
         script(src='js/owl.carousel.min.js')
         script(src='js/main.js')
+        script(src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js')
+        script.
+            
+            function update_cart(even){                
+                var e = event.target;
+                var id = e.getAttribute("id");
+                var input  = document.getElementById( "input" + id );
+                var total = document.getElementById("total" + id);
+                var behavior = e.getAttribute("class").slice(0 , 3);
+                console.log(behavior);
+                var bool = true;
+                var quantity;
+                if (behavior == "dec" && input.value != '0'){
+                    quantity = parseInt(input.value) - 1;
+                } else if (behavior == "dec" && input.value == '0') {
+                    quantity = 0;
+                    bool = false;
+                }
+                else {
+                    quantity = parseInt(input.value) + 1;
+                }
+                var a = 0 ;
+                var b = 0;
+                axios({
+                    method : "post",
+                    url : "/update_cart", 
+                    timeout : 200,
+                    data : {
+                        quantity : quantity,
+                        id : id
+                    }
+                    
+                })
+                var price = document.getElementById("price");
+                var cart = document.getElementById("cart");
+                console.log(price.textContent);
+                if (behavior == "dec" && bool == true){
+                    a = parseInt(price.textContent.slice(1)) - parseInt(e.getAttribute("price"));
+                    b = parseInt(total.textContent.slice(1)) - parseInt(e.getAttribute("price"));
+                } else if (bool == true){
+                    a = parseInt(price.textContent.slice(1)) + parseInt(e.getAttribute("price"));
+                    b = parseInt(total.textContent.slice(1)) + parseInt(e.getAttribute("price"));
+
+                }
+               
+                price.innerHTML = "$" + a;
+                total.innerHTML = "$" + b;
+                var s = document.getElementById("bil").innerHTML = "$" + a;
+                document.getElementById("bil1").innerHTML = "$" + a;
+
+                
+                
+                console.log(quantity)
+            }
+
+            async function send_er(event) {
+                var message = document.getElementById("err").value;
+                console.log(message);
+                document.getElementById("text_er").style.display = "none";
+                document.getElementById("text1").style.display = "block";
+                
+
+                await axios({
+                    method: "post",
+                    url: '/get_err',
+                    data: {
+                        message: message
+                    },
+                    timeout: 200
+                })
+
+
+            }
+
+            function deleteItem(event){
+                var e = event.target;
+                var id = e.getAttribute("id");
+                
+                axios({
+                    method: "post",
+                    url: "/update_cart",
+                    timeout: 200,
+                    data: {
+                        quantity: 0,
+                        id: id.slice(6)
+                    }
+                })
+                document.getElementById("deleteItem" + id.slice(6)).style.display = "none";
+                var price = document.getElementById("price");
+                var decPrice = document.getElementById("total" + id.slice(6));
+               
+                var cart = document.getElementById("cart");
+
+                var temp  = parseInt(cart.textContent) - 1;
+                cart.innerHTML = temp;
+                temp = parseInt(price.textContent.slice(1)) - parseInt(decPrice.textContent.slice(1));
+
+                price.innerHTML = "$" + temp;
+                 var s = document.getElementById("bil").innerHTML = "$" + temp;
+                document.getElementById("bil1").innerHTML = "$" + temp;
+
+            }
+
+
+

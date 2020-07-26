@@ -14,6 +14,7 @@ const reportRouter = require('./router/report.router')
 const sessionMiddleware = require('./middleware/session.middleware')
 const errorRouter = require('./router/error.router')
 const orderListRouter = require('./router/orderList.router')
+const indexRouter = require('./router/index.router')
 
 mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -43,6 +44,8 @@ app.use(express.static('public'));
 app.use('/food', validateAuth.requestAuth, foodRouter);
 app.use('/auth', loginRouter);
 app.use('/',  productsRouter);
+
+app.use('/' , indexRouter);
 
 app.use('/reports', validateAuth.requestAuth, reportRouter);
 app.use('/orderList', validateAuth.requestAuth, orderListRouter);

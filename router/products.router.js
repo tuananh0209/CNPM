@@ -12,7 +12,7 @@ router.get('/cart', controller.cart);
 
 router.get('/', controller.products);
 
-router.post('/' , controller.err);
+router.post('/get_err' , controller.err);
 
 router.get('/search', controller.search);
 
@@ -21,9 +21,8 @@ router.get('/check_out' , controller.checOut);
 
 router.post('/place_order' , controller.placeOrder);
 
-router.post('/update/:id', controller.upCart);
+router.post('/update_cart', controller.upCart);
 
-router.get('/:id' , controller.addCart);
-
+router.post('/add_cart' , controller.addCart);
 
 module.exports = router

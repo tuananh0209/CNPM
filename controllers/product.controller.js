@@ -9,7 +9,7 @@ const errorData = require('../models/error.model')
 
 
 const db = require('../db');
-const { render } = require('pug');
+
 
 var getFoodDatas;
 var prices = 0;
@@ -61,7 +61,8 @@ module.exports.products = async function (req, res) {
                 foodData: getFoodDatas.data,
                 src: req.headers.host,
                 cart : cart == undefined ? 0 : cart.length,
-                price : price
+                price : price,
+                cartList : cart
              })
             prices = price;
             carts = cart;
@@ -110,16 +111,16 @@ module.exports.search = function (req, res) {
 
 
 module.exports.addCart = function (req, res, next) {
-    var productId = req.params.id;
+    var productId = req.body.id;
     var sessionId = req.signedCookies.sessionId;
     
-
+    
     if (!sessionId) {
         console.log("cookie");
-        // res.redirect('/');
+        res.redirect('/');
         return;
     }
-
+    console.log("Add")
     var check = db.get('session').find({
         id : sessionId
     }).value();
@@ -148,7 +149,6 @@ module.exports.addCart = function (req, res, next) {
             .set('cart.' + productId, parseInt(count) + 1)
             .write();
 
-    // res.redirect('/')
 }
 
 module.exports.cart = async function(req , res ){
@@ -195,7 +195,7 @@ module.exports.cart = async function(req , res ){
         res.render('cart', {
             foodData: getFoodDatas.data,
             src: req.headers.host, 
-            cart: carts == undefined ? 0 : carts.length,
+            cart: cart == undefined ? 0 : cart.length,
             price: price,
             cartItem : cartItem,
             cartData : cartData
@@ -207,20 +207,61 @@ module.exports.cart = async function(req , res ){
 module.exports.upCart = async function(req , res , next){
 
     var quantity = req.body.quantity;
-    var id = req.params.id;
+    var id = req.body.id;
     var session = req.signedCookies.sessionId;
-
+    console.log(id);
     try {
-       var getData = db.get('session')
-        .find({
-           id : session
-        })
-        .set('cart.' + id , parseInt(quantity))
-        .write();
-        
+        if (quantity != '0'){
+            console.log("1")
+
+            var getData = db.get('session')
+                .find({
+                id : session
+                })
+                .set('cart.' + id , parseInt(quantity))
+                .write();
+            if (getData == undefined) {
+                 var temp = {
+                     id: session
+                 }
+                db.get('session').push(temp).write();
+                    getData = db.get('session')
+                    .find({
+                        id: session
+                    })
+                    .set('cart.' + id, parseInt(quantity))
+                    .write();
+            }
+        }else {
+            
+            var getData = db.get("session")
+            .find({
+                id :session
+            })
+            .unset('cart.' + id)
+            .write();
+
+            getData = db.get('session')
+            .find({
+                id : session
+            })
+            .value();
+            var i = 0;
+            for (x in getData.cart){
+                i++;
+            }
+            if (i == 0){
+                getData = db.get('session')
+                    .remove({
+                        id : session
+                    })
+                    .write();
+            }
+            console.log(getData);
         // res.redirect('http://localhost:3000/cart');
     //    res.redirect('/cart');
         return;
+        }
     }
     catch(err){
         res.location('/cart');
@@ -275,7 +316,7 @@ module.exports.checOut = async function(req , res){
         res.render('checkCout', {
             foodData: getFoodDatas.data,
             src: req.headers.host,
-            cart: carts == undefined ? 0 : carts.length,
+            cart: cart == undefined ? 0 : cart.length,
             price: price,
             cartItem: cartItem,
             cartData: cartData

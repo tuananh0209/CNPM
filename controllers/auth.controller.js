@@ -11,6 +11,10 @@ module.exports.login = function(req , res){
     res.render('auth/login');
 };
 
+// module.exports.index = function (req, res) {
+//     res.render('index');
+// };
+
 module.exports.postLogin = async function(req , res){
     // var userName = req.body.name;   
     // var user = db.get('users').find({ name : userName}).value();
@@ -32,7 +36,7 @@ module.exports.postLogin = async function(req , res){
             res.cookie('userId', data[0]._id, {
                 signed : true
             });
-            res.redirect('/');
+            res.redirect('http://localhost:3000/index');
         }, 100);
     })
 }
