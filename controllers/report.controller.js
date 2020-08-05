@@ -95,7 +95,7 @@ module.exports.exportFile = async function(req , res){
     var date = d.toLocaleDateString();
     var miliS = Date.parse(date);
     miliS -= 1000 * 60 * 60 * 24 * 30;
-
+ 
 
     await userManage.find({
             _id: id
