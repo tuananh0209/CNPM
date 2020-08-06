@@ -70,17 +70,59 @@ module.exports.products = async function (req, res) {
 
 }
 
-module.exports.search = function (req, res) {
+module.exports.search = async function (req, res) {
+    var price = 0;
+    var cart;
+    var sessionId = req.signedCookies.sessionId;
+    var cartData = db.get('session')
+        .find({
+            id: sessionId
+        }).value();
+
+    if (cartData != undefined)
+        try {
+            cart = Object.keys(cartData.cart);
+        }
+    catch (err) {
+        cart = [];
+    }
+
+    
+
     var name = req.query.q;
     var itemMatched = getFoodDatas.data.filter(function (data) {
         return data.name.toLowerCase().indexOf(name.toLowerCase()) != -1;
     })
+
+
+     await foodModel.find({
+
+     }, function (err, data) {
+         if (err) return next(err);
+         // console.log(req.headers.host);
+         if (data)
+             getFoodDatas = new foodData.getFood(data);
+         var i = 0;
+         if (cartData != undefined) {
+             cart.forEach(function (value) {
+                 x = getFoodDatas.data.filter(function (data) {
+                     if (data._id == value) {
+                         price += parseInt(data.price) * parseInt(cartData.cart[value]);
+                     }
+                     return data._id == value;
+                 })
+
+             });
+         }
+     });
+
     res.render('home', {
         foodData: itemMatched,
         inputs: name,
         src: req.headers.host,
-        cart: carts == undefined ? 0 : carts.length,
-        price: prices
+        cart: cart == undefined ? 0 : cart.length,
+        price: price,
+        cartList: cart
     });
 
 };

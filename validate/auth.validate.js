@@ -4,24 +4,23 @@ const userManage = require('../models/userCreat.model');
 
 const md5 = require('md5')
 
-module.exports.postLogin = async function(req , res , next){
+module.exports.postLogin = async function (req, res, next) {
     var pass = req.body.pass;
     var user;
 
     await userManage.find({
         name: req.body.name
-    }, function(err, data) {
-        
+    }, function (err, data) {
+
         if (err) {
-            if (err) return next(err);
+            console.log(err);
         }
         try {
-        user = new userMatchObject(data[0].name , data[0]._id , data[0].pass , data[0].vendor);
+            user = new userMatchObject(data[0].name, data[0]._id, data[0].pass, data[0].vendor);
+        } catch (err) {
+            console.log(err);
         }
-        catch(err) {
-        res.redirect('/auth/login');
-        }
-    }).then(function(){
+    }).then(function () {
         var error = [];
 
 
@@ -50,45 +49,44 @@ module.exports.postLogin = async function(req , res , next){
 
 }
 
-module.exports.requestAuth = async function(req , res , next){
-   
+module.exports.requestAuth = async function (req, res, next) {
+
     var id = req.signedCookies.userId;
-    if(!id){
+    if (!id) {
         res.redirect('/auth/login');
-        return; 
+        return;
     }
 
-    
+
     var user;
 
     await userManage.find({
-        _id : id
+        _id: id
     }, function (err, data) {
 
         if (err) {
 
             if (err) console.log(err);
         }
-        try{
+        try {
             user = new userMatchObject(data[0].name, data[0]._id, data[0]._pass, data[0].vendor);
-        }
-        catch(err){
+        } catch (err) {
             console.log(err);
             res.redirect('/auth/login');
 
-        } 
+        }
     })
-    
+
     setTimeout(function () {
         if (!user) {
-            
+
             res.redirect('/auth/login');
             return;
         }
         res.locals.user = user;
         next();
-    } , 1000);
-    
+    }, 1000);
+
 }
 
 
@@ -110,6 +108,28 @@ module.exports.postCreat = function (req, res, next) {
     if (non_input.length) {
         res.render('auth/creat', {
             request: non_input,
+            value: req.body
+        });
+        return;
+    }
+    next();
+}
+
+module.exports.postCheckLogin = function (req, res, next) {
+    var non_input = [];
+
+    if (!req.body.name) {
+        non_input.push("Name is require!");
+    }
+
+
+    if (!req.body.pass) {
+        non_input.push("Password is require!");
+    }
+
+    if (non_input.length) {
+        res.render('auth/login', {
+            error: non_input,
             value: req.body
         });
         return;

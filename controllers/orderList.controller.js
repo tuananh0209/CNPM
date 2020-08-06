@@ -76,7 +76,7 @@ module.exports.orderList = async function (req, res) {
                 orderList: dataRender,
                 
             });
-        }, 100);
+        }, 100); 
 }
 
 module.exports.viewOrders = async function (req, res) {
@@ -108,9 +108,9 @@ module.exports.viewOrders = async function (req, res) {
         }
     })
 
-    await foodModel.find({
+    await foodModel.find({ 
         __v: 0
-    }, function (err, data) {
+    }, function (err, data) { 
         try {
             foodData = data;
         } catch (err) {
@@ -186,6 +186,7 @@ module.exports.complete = async function(req , res){
     }
 
     catch(err){
+        console.log(err);
         res.redirect('/orderList/orderList')
     }
 }
